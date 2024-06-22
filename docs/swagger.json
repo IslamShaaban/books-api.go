@@ -3,6 +3,10 @@
     "info": {
         "contact": {}
     },
+    "host": "1c34-41-236-144-65.ngrok-free.app",
+    "schemes": [
+        "https"
+    ],
     "paths": {
         "/books": {
             "get": {
