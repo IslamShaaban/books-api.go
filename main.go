@@ -47,7 +47,7 @@ func main() {
 	restarter := make(chan bool)
 
 	go func() {
-		switch args[0] {
+		switch args[2] {
 		case "", "serve", "s":
 			cmd.RunServer(directory, commandExtension, appState)
 		case "generator", "g":
