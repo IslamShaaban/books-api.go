@@ -50,6 +50,12 @@ func main() {
 		switch args[0] {
 		case "", "serve", "s":
 			cmd.RunServer(directory, commandExtension, appState)
+		case "generator", "g":
+			cmd.RunGenerator(directory, commandExtension, appState, args)
+			closeApp <- "done"
+		case "migrate", "m":
+			cmd.RunMigration(directory, commandExtension, appState, args)
+			closeApp <- "done"
 		}
 	}()
 
