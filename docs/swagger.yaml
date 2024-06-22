@@ -1,0 +1,44 @@
+info:
+  contact: {}
+paths:
+  /books:
+    get:
+      description: Retrieve a list of all books
+      produces:
+      - application/json
+      responses: {}
+      summary: List all books
+    post:
+      consumes:
+      - application/json
+      description: Create a new book record
+      produces:
+      - application/json
+      responses: {}
+      summary: Create a new book
+  /books/{id}:
+    delete:
+      description: Delete a book by its ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete a book by ID
+    get:
+      description: Retrieve a book by its ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get a book by ID
+swagger: "2.0"
