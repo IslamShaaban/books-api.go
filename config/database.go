@@ -28,11 +28,10 @@ var (
 // Generate URL for the Database Connection
 func (dbConfig *DBConfig) DbURL() string {
 	return fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&collation=%s&parseTime=True&loc=Local",
+		"%s:%s@tcp(%sDB)/%s?charset=utf8mb4&collation=%s&parseTime=True&loc=Local",
 		dbConfig.Username,
 		dbConfig.Password,
-		dbConfig.Host,
-		dbConfig.Port,
+		dbConfig.Dbname,
 		dbConfig.Dbname,
 		dbConfig.Collation,
 	)

@@ -34,7 +34,7 @@ func main() {
 	// Set Command Running
 	command := "status"
 	if len(args) > 0 {
-		command = args[0]
+		command = args[2]
 	}
 
 	// Set Database Dialect
@@ -59,8 +59,8 @@ func runMigrationFile(command string, args []string) {
 
 	log.Println("Running Migration Script in Progress...")
 	if command != "" {
-		log.Printf("Running: %s with values %v", command, args[1:])
-		if err := goose.RunContext(ctx, command, config.SQL_DB, migrationDirectory, args[1:]...); err != nil {
+		log.Printf("Running: %s with values %v", command, args[3:])
+		if err := goose.RunContext(ctx, command, config.SQL_DB, migrationDirectory, args[3:]...); err != nil {
 			log.Fatalf("goose run error: %v", err)
 		}
 		return
