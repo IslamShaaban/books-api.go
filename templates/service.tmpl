@@ -1,0 +1,13 @@
+package services
+
+import (
+    "gorm.io/gorm"
+)
+
+type {{.ResourceName}}Service struct {
+	db *gorm.DB
+}
+
+func New{{.ResourceName}}Service(db *gorm.DB) *{{.ResourceName}}Service {
+	return &{{.ResourceName}}Service{db: db}
+}

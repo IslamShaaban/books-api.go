@@ -1,0 +1,15 @@
+package controllers
+
+type {{.ResourceName}}Controller struct {}
+
+func New{{.ResourceName}}Controller() *{{.ResourceName}}Controller {
+	return &{{.ResourceName}}Controller{}
+}
+
+func ({{.ShortcutName}} *{{.ResourceName}}Controller) Index() {}
+
+func ({{.ShortcutName}} *{{.ResourceName}}Controller) Create() {}
+
+func ({{.ShortcutName}} *{{.ResourceName}}Controller) Show() {}
+
+func ({{.ShortcutName}} *{{.ResourceName}}Controller) Delete() {}
