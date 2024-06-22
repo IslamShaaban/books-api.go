@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-      - release/deployment
-    tags:
-      - release
   pull_request:
     branches:
       - master
@@ -33,14 +30,17 @@ jobs:
       GOOSE_DBSTRING: ${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@tcp(${{ secrets.DB_NAME }})/${{ secrets.DB_NAME }}
 
     steps:
+    # Checkout the repository
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
+    # Setup Golang Version
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v5
       with:
         go-version: '1.22.4'
     
+    # Create .env file
     - name: Create .env file
       run: |
         echo "DB_ADAPTER=${DB_ADAPTER}" >> .env
@@ -57,6 +57,29 @@ jobs:
         echo "GOOSE_DRIVER=${DB_ADAPTER}" >> .env
         echo "GOOSE_DBSTRING=${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME}" >> .env
     
+    # Build and Run the Docker Container
     - name: Build and Run Server
       run: |
         make up
+  
+    # Wait for a few seconds to ensure the Docker Container has started
+    - name: Wait for container startup
+      run: sleep 10
+
+    # Copy the built artifacts from the Docker container to the GitHub Pages directory
+    - name: Copy build artifacts
+      run: |
+        mkdir -p gh-pages
+        CONTAINER_ID=$(docker ps --filter "name=${API_CONTAINER_NAME}" --format "{{.ID}}")
+        docker cp "${CONTAINER_ID}":/app/docs/. ./gh-pages
+
+    # Publish to GitHub Pages
+    - name: Publish to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        publish_dir: ./gh-pages
+
+    # Clean up Artifacts directory after Deployment on Github Pages
+    - name: Clean up artifacts
+      run: rm -rf ./gh-pages

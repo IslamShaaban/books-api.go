@@ -3,6 +3,10 @@
     "info": {
         "contact": {}
     },
+    "host": "localhost:9000",
+    "schemes": [
+        "http"
+    ],
     "paths": {
         "/books": {
             "get": {
