@@ -1,0 +1,62 @@
+name: Books API Workflow
+
+on:
+  push:
+    branches:
+      - master
+      - release/deployment
+    tags:
+      - release
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    env:
+      DB_ADAPTER: ${{ secrets.DB_ADAPTER }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      SERVER_HOSTNAME:  ${{ secrets.SERVER_HOSTNAME }}
+      SERVER_PORT:  ${{ secrets.SERVER_PORT }}
+      DB_CONTAINER_NAME: ${{ secrets.DB_CONTAINER_NAME }}
+      API_CONTAINER_NAME: ${{ secrets.API_CONTAINER_NAME }}
+      GOOSE_DRIVER: ${{ secrets.DB_ADAPTER }}
+      GOOSE_DBSTRING: ${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@tcp(${{ secrets.DB_NAME }})/${{ secrets.DB_NAME }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.22.4'
+    
+    - name: Create .env file
+      run: |
+        echo "DB_ADAPTER=${DB_ADAPTER}" >> .env
+        echo "DB_USERNAME=${DB_USERNAME}" >> .env
+        echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
+        echo "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}" >> .env
+        echo "DB_HOST=${DB_HOST}" >> .env
+        echo "DB_PORT=${DB_PORT}" >> .env
+        echo "DB_NAME=${DB_NAME}" >> .env
+        echo "SERVER_HOSTNAME=${SERVER_HOSTNAME}" >> .env
+        echo "SERVER_PORT=${SERVER_PORT}" >> .env
+        echo "DB_CONTAINER_NAME=${DB_CONTAINER_NAME}" >> .env
+        echo "API_CONTAINER_NAME=${API_CONTAINER_NAME}" >> .env
+        echo "GOOSE_DRIVER=${DB_ADAPTER}" >> .env
+        echo "GOOSE_DBSTRING=${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME}" >> .env
+    
+    - name: Build and Run Server
+      run: |
+        make up

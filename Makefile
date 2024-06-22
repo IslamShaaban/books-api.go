@@ -6,7 +6,7 @@ PROJECT_NAME = books-api
 # Docker Compose commands
 DOCKER_COMPOSE = docker compose
 DC_BUILD = $(DOCKER_COMPOSE) build
-DC_UP = $(DOCKER_COMPOSE) up --build
+DC_UP = $(DOCKER_COMPOSE) up --build -d
 DC_DOWN = $(DOCKER_COMPOSE) down
 DC_RESTART = $(DOCKER_COMPOSE) restart
 DC_LOGS = $(DOCKER_COMPOSE) logs
