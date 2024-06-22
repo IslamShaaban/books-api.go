@@ -44,20 +44,19 @@ func RunCommand(command string, appState chan string) {
 		complete := false
 		for {
 			if complete {
-				fmt.Printf("[GIN-N-JUICE] Command complete complete loop: %s %d \n", command, id)
+				fmt.Printf("Command complete complete loop: %s %d \n", command, id)
 				break
 			}
 			select {
 			case state := <-appState:
 				if state == "restart" || state == "stop" {
-					//fmt.Printf("[GIN-N-JUICE] Killing command: %s %d \n", command, id)
 					err := c.Stop()
 					if err != nil {
-						fmt.Printf("[GIN-N-JUICE] Error Killing command: %s \n", err.Error())
+						fmt.Printf("Error Killing command: %s \n", err.Error())
 					}
 				}
 			case <-commandChan:
-				fmt.Printf("[GIN-N-JUICE] Command complete kill loop: %s %d \n", command, id)
+				fmt.Printf("Command complete kill loop: %s %d \n", command, id)
 				complete = true
 			}
 		}
