@@ -1,0 +1,69 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "host": "localhost:9000",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/books": {
+            "get": {
+                "description": "Retrieve a list of all books",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List all books",
+                "responses": {}
+            },
+            "post": {
+                "description": "Create a new book record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create a new book",
+                "responses": {}
+            }
+        },
+        "/books/{id}": {
+            "get": {
+                "description": "Retrieve a book by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a book by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "Delete a book by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a book by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    }
+}
